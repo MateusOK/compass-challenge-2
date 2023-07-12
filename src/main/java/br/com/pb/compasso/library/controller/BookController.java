@@ -5,6 +5,7 @@ import br.com.pb.compasso.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,5 +25,10 @@ public class BookController {
     public List<Book> findAll(){
         return bookService.findAll();
     }
+
+   @GetMapping("/api/books/genre")
+   public List<Book> findByGenre(@RequestParam("genre") String genre){
+        return bookService.findByGenre(genre);
+   }
 
 }

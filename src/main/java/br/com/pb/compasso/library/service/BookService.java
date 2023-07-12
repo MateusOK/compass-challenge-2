@@ -10,4 +10,6 @@ public interface BookService {
 
     List<Book> findByGenre(String genre);
 
+    List<Book> findByAuthor(String author);
+
 }

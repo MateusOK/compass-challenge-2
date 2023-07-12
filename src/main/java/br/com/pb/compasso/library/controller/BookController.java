@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/")
 public class BookController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
     public BookController(BookService bookService) {
@@ -30,5 +30,10 @@ public class BookController {
    public List<Book> findByGenre(@RequestParam("genre") String genre){
         return bookService.findByGenre(genre);
    }
+
+    @GetMapping("/api/books/author")
+    public List<Book> findByAuthor(@RequestParam("author") String author){
+        return bookService.findByAuthor(author);
+    }
 
 }

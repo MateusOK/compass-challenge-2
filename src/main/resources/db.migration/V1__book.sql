@@ -1,0 +1,37 @@
+CREATE TABLE book (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    book_title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    release_date DATE NOT NULL,
+    pages INT NOT NULL,
+    rating DOUBLE,
+    genre VARCHAR(255)
+);
+
+INSERT INTO book (book_title, author, release_date, pages, rating, genre) VALUES
+  ('The Great Gatsby', 'F. Scott Fitzgerald', '1925-04-10', 218, 4.5, 'Fiction'),
+  ('To Kill a Mockingbird', 'Harper Lee', '1960-07-11', 324, 7.8, 'Fiction'),
+  ('1984', 'George Orwell', '1949-06-08', 328, 4.7, 'Fiction'),
+  ('Pride and Prejudice', 'Jane Austen', '1813-01-28', 279, 9.6, 'Classic'),
+  ('The Lord of the Rings', 'J.R.R. Tolkien', '1954-07-29', 1178, 4.9, 'Fantasy'),
+  ('The Catcher in the Rye', 'J.D. Salinger', '1951-07-16', 234, 6.3, 'Fiction'),
+  ('To the Lighthouse', 'Virginia Woolf', '1927-05-05', 209, 9.5, 'Classic'),
+  ('Moby-Dick', 'Herman Melville', '1851-10-18', 585, 8.6, 'Classic'),
+  ('The Hobbit', 'J.R.R. Tolkien', '1937-09-21', 310, 4.7, 'Fantasy'),
+  ('The Great Expectations', 'Charles Dickens', '1861-08-01', 544, 3.5, 'Classic'),
+  ('Frankenstein', 'Mary Shelley', '1818-01-01', 280, 4.4, 'Classic'),
+  ('The Adventures of Tom Sawyer', 'Mark Twain', '1876-12-01', 224, 2.2, 'Fiction'),
+  ('Brave New World', 'Aldous Huxley', '1932-01-01', 311, 1.5, 'Fiction'),
+  ('The Alchemist', 'Paulo Coelho', '1988-01-01', 208, 9.6, 'Fiction'),
+  ('The Picture of Dorian Gray', 'Oscar Wilde', '1890-07-01', 254, 5.4, 'Fiction'),
+  ('One Hundred Years of Solitude', 'Gabriel Garcia Marquez', '1967-06-30', 417, 7.8, 'Fiction'),
+  ('Anna Karenina', 'Leo Tolstoy', '1877-03-01', 864, 6.7, 'Classic'),
+  ('The Count of Monte Cristo', 'Alexandre Dumas', '1844-08-28', 1276, 4.8, 'Classic'),
+  ('The Chronicles of Narnia', 'C.S. Lewis', '1950-10-16', 767, 3.6, 'Fantasy'),
+  ('Harry Potter and the Sorcerer''s Stone', 'J.K. Rowling', '1997-06-26', 320, 1.8, 'Fantasy'),
+  ('The Sun Also Rises', 'Ernest Hemingway', '1926-10-22', 251, 5.1, 'Fiction'),
+  ('The Scarlet Letter', 'Nathaniel Hawthorne', '1850-03-16', 279, 9.3, 'Classic'),
+  ('The Grapes of Wrath', 'John Steinbeck', '1939-04-14', 464, 8.5, 'Classic'),
+  ('The Catch-22', 'Joseph Heller', '1961-11-10', 453, 1.4, 'Fiction'),
+  ('The Handmaid''s Tale', 'Margaret Atwood', '1985-06-14', 311, 2.6, 'Fiction'),
+  ('The Brothers Karamazov', 'Fyodor Dostoevsky', '1880-11-01', 796, 8.7, 'Classic');

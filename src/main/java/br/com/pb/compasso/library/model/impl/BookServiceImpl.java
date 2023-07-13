@@ -11,10 +11,22 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+    private final BookRepositoryImpl bookRepositoryImpl;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, BookRepositoryImpl  bookRepositoryImpl) {
         this.bookRepository = bookRepository;
+        this.bookRepositoryImpl = bookRepositoryImpl;
+    }
+
+    @Override
+    public Book save(Book book) {
+        return bookRepository.save(book);
+    }
+
+    @Override
+    public List<Book> saveAll(List<Book> books) {
+        return bookRepositoryImpl.saveAll(books);
     }
 
     @Override

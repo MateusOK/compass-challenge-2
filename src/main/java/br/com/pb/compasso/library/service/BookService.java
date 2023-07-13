@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface BookService {
 
+    Book save(Book book);
+
+    List<Book> saveAll(List<Book> books);
+
     List<Book> findAll();
 
     List<Book> findByGenre(String genre);

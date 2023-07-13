@@ -1,12 +1,14 @@
 package br.com.pb.compasso.library.domain.exception;
 
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
-public class BookRestExceptionHandler {
+@RestControllerAdvice
+public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ExceptionResponseBody> handleTypeMismatchException(TypeMismatchException exc){
@@ -31,6 +33,17 @@ public class BookRestExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponseBody> handleInternalServerException(InternalServerException exc){
+
+        ExceptionResponseBody error = new ExceptionResponseBody();
+
+
+
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

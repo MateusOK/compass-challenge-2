@@ -7,6 +7,7 @@ import br.com.pb.compasso.library.service.BookService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -27,6 +28,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> saveAll(List<Book> books) {
         return bookRepositoryImpl.saveAll(books);
+    }
+
+    @Override
+    public Book findById(Integer id) {
+        Optional<Book> result = bookRepository.findById(Long.valueOf(id));
+        Book book;
+
+        if (result.isPresent()){
+            book = result.get();
+        } else {
+            throw new RuntimeException("Book id not found " + id);
+        }
+
+        return book;
     }
 
     @Override

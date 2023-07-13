@@ -1,7 +1,6 @@
 package br.com.pb.compasso.library.controller;
 
 import br.com.pb.compasso.library.domain.entity.Book;
-import br.com.pb.compasso.library.model.BookRepository;
 import br.com.pb.compasso.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -36,6 +37,11 @@ public class BookController {
     @GetMapping("/api/books")
     public List<Book> findAll(){
         return bookService.findAll();
+    }
+
+    @GetMapping("/api/books/{bookId}")
+    public Book findById(@PathVariable Integer bookId){
+        return bookService.findById(bookId);
     }
 
    @GetMapping("/api/books/genre")

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,4 +54,9 @@ public class BookController {
     public List<Book> saveBooksBatch(@RequestBody List<Book> books) {
         return bookService.saveAll(books);
     }
+    @DeleteMapping("/api/books/{bookId}")
+    public void deleteBook(@PathVariable Integer bookId){
+        bookService.delete(bookId);
+    }
+
 }

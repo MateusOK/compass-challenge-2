@@ -18,4 +18,6 @@ public interface BookService {
 
     List<Book> findByAuthor(String author);
 
+    void delete(Integer id);
+
 }

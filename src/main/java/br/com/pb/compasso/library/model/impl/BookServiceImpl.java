@@ -51,4 +51,9 @@ public class BookServiceImpl implements BookService {
     public List<Book> findByAuthor(String author) {
         return bookRepository.findByAuthor(author);
     }
+
+    @Override
+    public void delete(Integer id) {
+        bookRepository.deleteById(Long.valueOf(id));
+    }
 }

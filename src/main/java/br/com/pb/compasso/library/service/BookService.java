@@ -4,6 +4,8 @@ import br.com.pb.compasso.library.domain.entity.Book;
 
 import java.util.List;
 
+import br.com.pb.compasso.library.domain.entity.Book;
+
 public interface BookService {
 
     Book save(Book book);
@@ -15,5 +17,7 @@ public interface BookService {
     List<Book> findByGenre(String genre);
 
     List<Book> findByAuthor(String author);
+
+    Book save(Book book);
 
 }

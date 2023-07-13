@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
 
         List<Book> bookByGenreList = bookRepository.findByGenre(genre);
 
-        if (bookByGenreList.size() == 0){
+        if (bookByGenreList.isEmpty()){
             throw new PageNotFoundException("Book genre not found");
         }
 
@@ -49,11 +49,24 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findByAuthor(String author) {
-        return bookRepository.findByAuthor(author);
+
+        List<Book> bookByAuthorList = bookRepository.findByGenre(author);
+
+        if (bookByAuthorList.isEmpty()){
+            throw new PageNotFoundException("Book author not found");
+        }
+
+        return bookByAuthorList;
     }
 
     @Override
     public void delete(Integer id) {
-        bookRepository.deleteById(Long.valueOf(id));
+
+        try{
+            bookRepository.deleteById(Long.valueOf(id));
+        }
+        catch(PageNotFoundException e){
+            throw new PageNotFoundException("Insert a valid Id");
+        }
     }
 }

@@ -5,6 +5,7 @@ import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import br.com.pb.compasso.library.service.BookService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -69,11 +70,13 @@ public class BookController {
     }
 
     @PutMapping("api/books/{bookId}")
-    public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookResquestDto request){
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookResquestDto request) {
         BookResponseDto updateBook = bookService.update(bookId, request);
         return ResponseEntity.ok(updateBook);
+    }
+
     @DeleteMapping("/api/books/{bookId}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long bookId){
+    public ResponseEntity<Void> deleteBook(@PathVariable @Valid @Positive Long bookId){
         bookService.delete(bookId);
         return ResponseEntity.noContent().build();
     }

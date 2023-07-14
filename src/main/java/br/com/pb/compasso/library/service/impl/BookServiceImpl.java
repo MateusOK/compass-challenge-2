@@ -1,20 +1,25 @@
 package br.com.pb.compasso.library.service.impl;
 
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
+import br.com.pb.compasso.library.exception.BadRequestException;
+import br.com.pb.compasso.library.exception.InternalServerException;
+import br.com.pb.compasso.library.exception.PageNotFoundException;
 import br.com.pb.compasso.library.repository.BookRepository;
 import br.com.pb.compasso.library.service.BookService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,13 +111,14 @@ public class BookServiceImpl implements BookService {
         return new BookResponseDto(updatedBook);
     }
     @Override
+    @Validated
     public void delete(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isPresent()){
             bookRepository.delete(book.get());
         }
         else {
-            throw new RuntimeException("book id not found" + id);
+            throw new InternalServerException("Book ID doesn't exist - " + id);
         }
     }
 }

@@ -73,19 +73,19 @@ public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InternalServerException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<ExceptionResponseBody> handleInternalServerException(HttpServletRequest request, InternalServerException exc){
 
         ExceptionResponseBody error = new ExceptionResponseBody();
 
         error.setTimeStamp(new Date());
-        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.addError(exc.getMessage());
         error.setPath(request.getServletPath());
         LOGGER.error(exc.getMessage(), exc);
 
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

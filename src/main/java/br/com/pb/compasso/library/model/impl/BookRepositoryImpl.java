@@ -1,6 +1,6 @@
 package br.com.pb.compasso.library.model.impl;
 
-import br.com.pb.compasso.library.domain.entity.Book;
+import br.com.pb.compasso.library.entity.Book;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

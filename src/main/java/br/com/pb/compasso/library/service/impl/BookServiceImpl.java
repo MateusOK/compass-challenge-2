@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
         if (bookOptional.isPresent()){
             Book book = bookOptional.get();
             return new BookResponseDto(book.getId(), book.getBookTitle(), book.getAuthor(),
-                    book.getReleaseDate(), book.getPages(), book.getRating(), book.getGenre());
+                    book.getReleaseDate(), book.getPages(), book.getGenre(), book.getRating());
         }
         else {
             throw new RuntimeException("book id not found" + id);

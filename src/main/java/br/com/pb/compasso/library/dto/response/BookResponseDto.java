@@ -13,14 +13,14 @@ public record BookResponseDto(
 
         Integer pages,
 
-        Double genre,
+        String genre,
 
-        String rating
+        Double rating
 ) {
 
     public BookResponseDto(Book response){
         this(response.getId(), response.getBookTitle(), response.getAuthor(),
-                response.getReleaseDate(), response.getPages(), response.getRating(), response.getGenre());
+                response.getReleaseDate(), response.getPages(), response.getGenre(), response.getRating());
     }
 
 }

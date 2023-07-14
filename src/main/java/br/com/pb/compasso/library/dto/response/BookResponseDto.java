@@ -8,7 +8,6 @@ public record BookResponseDto(
 
         String bookTitle,
 
-
         String author,
 
         String releaseDate,

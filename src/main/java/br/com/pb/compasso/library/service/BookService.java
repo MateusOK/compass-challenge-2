@@ -19,5 +19,6 @@ public interface BookService {
     List<BookResponseDto> findByGenre(String genre);
 
     List<BookResponseDto> findByAuthor(String author);
+    BookResponseDto update(Long id, BookResquestDto request);
 
 }

@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
-@Validated
 public class BookController {
 
     private final BookService bookService;
@@ -59,6 +58,10 @@ public class BookController {
     public ResponseEntity<List<BookResponseDto>> saveMultipleBooks(@RequestBody @Valid List<BookResquestDto> request) {
         List<BookResponseDto> response = bookService.saveMultipleBooks(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PutMapping("api/books/{bookId}")
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable Long bookId, @RequestBody BookResquestDto request){
+        BookResponseDto updateBook = bookService.update(bookId, request);
+        return ResponseEntity.ok(updateBook);
     }
 
 }

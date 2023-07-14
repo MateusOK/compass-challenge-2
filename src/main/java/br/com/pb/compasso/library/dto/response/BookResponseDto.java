@@ -3,9 +3,11 @@ package br.com.pb.compasso.library.dto.response;
 import br.com.pb.compasso.library.entity.Book;
 
 public record BookResponseDto(
+
         Long id,
 
         String bookTitle,
+
 
         String author,
 
@@ -13,9 +15,9 @@ public record BookResponseDto(
 
         Integer pages,
 
-        Double genre,
+        Double rating,
 
-        String rating
+        String genre
 ) {
 
     public BookResponseDto(Book response){

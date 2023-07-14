@@ -1,6 +1,6 @@
-package br.com.pb.compasso.library.model;
+package br.com.pb.compasso.library.repository;
 
-import br.com.pb.compasso.library.domain.entity.Book;
+import br.com.pb.compasso.library.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

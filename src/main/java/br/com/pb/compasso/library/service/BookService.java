@@ -20,5 +20,6 @@ public interface BookService {
 
     List<BookResponseDto> findByAuthor(String author);
     BookResponseDto update(Long id, BookResquestDto request);
+    void delete(Long id);
 
 }

@@ -16,6 +16,13 @@ import java.util.List;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequestMapping("/")
@@ -65,6 +72,10 @@ public class BookController {
     public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookResquestDto request){
         BookResponseDto updateBook = bookService.update(bookId, request);
         return ResponseEntity.ok(updateBook);
+    @DeleteMapping("/api/books/{bookId}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long bookId){
+        bookService.delete(bookId);
+        return ResponseEntity.noContent().build();
     }
 
 }

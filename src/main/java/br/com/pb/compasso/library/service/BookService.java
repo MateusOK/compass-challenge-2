@@ -1,18 +1,18 @@
 package br.com.pb.compasso.library.service;
 
-import br.com.pb.compasso.library.domain.entity.Book;
+
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
 
-    Book findById(Integer id);
+    BookResponseDto findById(Long id);
 
-    List<Book> findAll();
+    List<BookResponseDto> getAllBooks();
 
-    List<Book> findByGenre(String genre);
+    List<BookResponseDto> findByGenre(String genre);
 
-    List<Book> findByAuthor(String author);
+    List<BookResponseDto> findByAuthor(String author);
 
 }

@@ -1,41 +1,43 @@
 package br.com.pb.compasso.library.controller;
 
-import br.com.pb.compasso.library.domain.entity.Book;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
 
-    @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
-
     @GetMapping("/api/books")
-    public List<Book> findAll(){
-        return bookService.findAll();
+    public ResponseEntity<List<BookResponseDto>> findAll(){
+        var response = bookService.getAllBooks();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/books/{bookId}")
-    public Book findById(@PathVariable Integer bookId){
-        return bookService.findById(bookId);
+    public ResponseEntity<BookResponseDto> findById(@PathVariable Long bookId){
+        var response = bookService.findById(bookId);
+        return ResponseEntity.ok(response);
     }
 
    @GetMapping("/api/books/genre")
-   public List<Book> findByGenre(@RequestParam("genre") String genre){
-        return bookService.findByGenre(genre);
+   public ResponseEntity<List<BookResponseDto>> findByGenre(@RequestParam("genre") String genre){
+        var response = bookService.findByGenre(genre);
+        return ResponseEntity.ok(response);
    }
 
     @GetMapping("/api/books/author")
-    public List<Book> findByAuthor(@RequestParam("author") String author){
-        return bookService.findByAuthor(author);
+    public ResponseEntity<List<BookResponseDto>> findByAuthor(@RequestParam("author") String author){
+        var response = bookService.findByAuthor(author);
+        return ResponseEntity.ok(response);
     }
 
 }

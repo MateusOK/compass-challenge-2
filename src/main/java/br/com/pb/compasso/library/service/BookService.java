@@ -1,23 +1,13 @@
 package br.com.pb.compasso.library.service;
 
-import br.com.pb.compasso.library.entity.Book;
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 
 import java.util.List;
 
 public interface BookService {
 
-    Book save(Book book);
-
-    List<Book> saveAll(List<Book> books);
-
-    Book findById(Integer id);
-
-    List<Book> findAll();
-
-    List<Book> findByGenre(String genre);
-
-    List<Book> findByAuthor(String author);
-
-    void delete(Integer id);
+    BookResponseDto saveBook(BookResquestDto request);
+    List<BookResponseDto> saveMultipleBooks(List<BookResquestDto> request);
 
 }

@@ -1,9 +1,10 @@
 package br.com.pb.compasso.library.service;
 
-import br.com.pb.compasso.library.domain.entity.Book;
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 
 public interface BookService {
 
-    Book save(Book book);
+    BookResponseDto update(Long id, BookResquestDto request);
 
 }

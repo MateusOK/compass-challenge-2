@@ -1,30 +1,32 @@
 package br.com.pb.compasso.library.controller;
-
-import br.com.pb.compasso.library.domain.entity.Book;
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class BookController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    @PostMapping("/api/books")
+    public ResponseEntity<BookResponseDto> saveBook(@RequestBody BookResquestDto request, UriComponentsBuilder builder){
+        var response = bookService.saveBook(request);
+        var uri = builder.path("/api/books/{id}").buildAndExpand(response.id()).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
-    @PostMapping("api/books")
-    public Book save(@RequestBody Book book){
-        return bookService.save(book);
-    }
-
-    @PostMapping("api/books/batch")
-    public List<Book> saveBooksBatch(@RequestBody List<Book> books) {
-        return bookService.saveAll(books);
+    @PostMapping("/api/books/batch")
+    public ResponseEntity<List<BookResponseDto>> saveMultipleBooks(@RequestBody List<BookResquestDto> request) {
+        List<BookResponseDto> response = bookService.saveMultipleBooks(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

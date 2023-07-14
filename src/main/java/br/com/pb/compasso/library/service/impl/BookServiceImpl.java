@@ -3,8 +3,6 @@ package br.com.pb.compasso.library.service.impl;
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
-import br.com.pb.compasso.library.dto.response.BookResponseDto;
-import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.repository.BookRepository;
 import br.com.pb.compasso.library.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service

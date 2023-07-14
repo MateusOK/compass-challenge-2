@@ -4,6 +4,7 @@ import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import br.com.pb.compasso.library.service.BookService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -58,8 +59,10 @@ public class BookController {
     public ResponseEntity<List<BookResponseDto>> saveMultipleBooks(@RequestBody @Valid List<BookResquestDto> request) {
         List<BookResponseDto> response = bookService.saveMultipleBooks(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
     @PutMapping("api/books/{bookId}")
-    public ResponseEntity<BookResponseDto> updateBook(@PathVariable Long bookId, @RequestBody BookResquestDto request){
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookResquestDto request){
         BookResponseDto updateBook = bookService.update(bookId, request);
         return ResponseEntity.ok(updateBook);
     }

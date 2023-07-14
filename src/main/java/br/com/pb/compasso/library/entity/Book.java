@@ -1,13 +1,14 @@
-package br.com.pb.compasso.library.domain.entity;
+package br.com.pb.compasso.library.entity;
 
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "book")
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
@@ -34,4 +35,14 @@ public class Book {
 
     @Column(name = "genre")
     private String genre;
+
+    public Book(BookResquestDto request){
+        this.bookTitle = request.bookTitle();
+        this.author = request.author();
+        this.releaseDate = request.releaseDate();
+        this.pages = request.pages();
+        this.rating = request.rating();
+        this.genre = request.genre();
+    }
+
 }

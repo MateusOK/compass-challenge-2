@@ -2,12 +2,8 @@ package br.com.pb.compasso.library.controller;
 
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
-import br.com.pb.compasso.library.exception.InternalServerException;
-import br.com.pb.compasso.library.exception.PageNotFoundException;
 import br.com.pb.compasso.library.service.BookService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
+@Validated
 public class BookController {
 
     private final BookService bookService;

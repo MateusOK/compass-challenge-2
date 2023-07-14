@@ -96,7 +96,7 @@ public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponseBody error = new ExceptionResponseBody();
 
         error.setTimeStamp(new Date());
-        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.addError(ex.getMessage());
         error.setPath(request.getServletPath());
         LOGGER.error(ex.getMessage(), ex);

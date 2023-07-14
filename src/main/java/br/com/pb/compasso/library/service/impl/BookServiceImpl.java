@@ -8,6 +8,8 @@ import br.com.pb.compasso.library.exception.InternalServerException;
 import br.com.pb.compasso.library.exception.PageNotFoundException;
 import br.com.pb.compasso.library.repository.BookRepository;
 import br.com.pb.compasso.library.service.BookService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Validated
-    public List<BookResponseDto> saveMultipleBooks(List<BookResquestDto> request) {
+    public List<BookResponseDto> saveMultipleBooks(@Valid @NotNull List<BookResquestDto> request) {
         List<Book> books = request.stream()
                 .map(Book::new)
                 .toList();

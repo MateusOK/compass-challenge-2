@@ -1,7 +1,8 @@
 package br.com.pb.compasso.library.model.impl;
 
-import br.com.pb.compasso.library.domain.entity.Book;
-import br.com.pb.compasso.library.model.BookRepository;
+import br.com.pb.compasso.library.entity.Book;
+import br.com.pb.compasso.library.repository.BookRepository;
+import br.com.pb.compasso.library.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,4 +1,4 @@
-package br.com.pb.compasso.library.domain.exception;
+package br.com.pb.compasso.library.exception;
 
 public class PageNotFoundException extends RuntimeException{
 

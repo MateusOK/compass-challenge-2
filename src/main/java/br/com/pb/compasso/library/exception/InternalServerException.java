@@ -1,4 +1,4 @@
-package br.com.pb.compasso.library.domain.exception;
+package br.com.pb.compasso.library.exception;
 
 public class InternalServerException extends RuntimeException{
     public InternalServerException(String message) {

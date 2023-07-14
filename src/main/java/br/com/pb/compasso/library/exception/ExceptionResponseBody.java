@@ -1,4 +1,4 @@
-package br.com.pb.compasso.library.domain.exception;
+package br.com.pb.compasso.library.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

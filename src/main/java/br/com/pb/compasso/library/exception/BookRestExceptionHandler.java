@@ -1,4 +1,4 @@
-package br.com.pb.compasso.library.domain.exception;
+package br.com.pb.compasso.library.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;

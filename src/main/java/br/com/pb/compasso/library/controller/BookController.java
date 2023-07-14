@@ -4,7 +4,6 @@ import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -23,6 +22,7 @@ public class BookController {
     }
 
     @GetMapping("/api/books/{bookId}")
+    @ResponseBody
     public ResponseEntity<BookResponseDto> findById(@PathVariable Long bookId){
         var response = bookService.findById(bookId);
         return ResponseEntity.ok(response);

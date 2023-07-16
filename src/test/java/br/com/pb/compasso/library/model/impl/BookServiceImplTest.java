@@ -5,28 +5,21 @@ import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.exception.InternalServerException;
 import br.com.pb.compasso.library.repository.BookRepository;
-import br.com.pb.compasso.library.service.BookService;
 import br.com.pb.compasso.library.service.impl.BookServiceImpl;
-import org.antlr.v4.runtime.misc.LogManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.client.ExpectedCount;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.client.ExpectedCount.times;
 
 class BookServiceImplTest {
 

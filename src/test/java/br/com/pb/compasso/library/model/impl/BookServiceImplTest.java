@@ -102,6 +102,32 @@ class BookServiceImplTest {
         verify(bookRepository).findById(ID);
     }
 
+    @Test
+    void whenUpdateBookThenReturnUpdatedBook() {
+        Long id = 1L;
+        BookResquestDto requestDto = new BookResquestDto("The Lord of the Rings", "J.R.R. Tolkien", "1954", 1200, 9.0, "Epic Fantasy");
+
+        Book updatedBook = new Book(id, requestDto.bookTitle(), requestDto.author(), requestDto.releaseDate(),
+                requestDto.pages(), requestDto.rating(), requestDto.genre());
+
+        when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+        when(bookRepository.save(any(Book.class))).thenReturn(updatedBook);
+
+        BookResponseDto responseDto = bookService.update(id, requestDto);
+
+
+        assertNotNull(responseDto);
+        assertEquals(id, responseDto.id());
+        assertEquals("The Lord of the Rings", responseDto.bookTitle());
+        assertEquals("J.R.R. Tolkien", responseDto.author());
+        assertEquals("1954", responseDto.releaseDate());
+        assertEquals(1200, responseDto.pages());
+        assertEquals("Epic Fantasy", responseDto.genre());
+        assertEquals(9.0, responseDto.rating());
+
+        verify(bookRepository).findById(id);
+    }
+
     private void starBook() {
         book = new Book(ID, bookTitle, author, releaseDate, pages, rating, genre);
         bookDTO = new BookResquestDto(bookTitle, author, releaseDate, pages, rating, genre);

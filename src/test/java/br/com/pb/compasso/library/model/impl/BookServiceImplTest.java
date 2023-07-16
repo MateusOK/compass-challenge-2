@@ -1,76 +1,91 @@
 package br.com.pb.compasso.library.model.impl;
 
+import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
+import br.com.pb.compasso.library.exception.InternalServerException;
 import br.com.pb.compasso.library.repository.BookRepository;
+import br.com.pb.compasso.library.service.BookService;
 import br.com.pb.compasso.library.service.impl.BookServiceImpl;
+import org.antlr.v4.runtime.misc.LogManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.client.ExpectedCount;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-
-@SpringBootTest
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.client.ExpectedCount.times;
 
 class BookServiceImplTest {
+
+    private static final Long ID = 1L;
+    private static final String bookTitle = "Harry Potter";
+    private static final String author = "JK Rowling";
+    private static final String releaseDate = "2000";
+    private static final Integer pages = 300;
+    private static final String genre = "fantasy";
+    private static final Double rating = 9.5;
+
     @InjectMocks
-    private BookServiceImpl service;
+    private BookServiceImpl bookService;
+
     @Mock
     private BookRepository bookRepository;
 
+    private BookResquestDto bookDTO;
     private Book book;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
         starBook();
     }
 
+
     @Test
-    void whenFindAllThenReturnAnListOfBooks() {
-        when(bookRepository.findAll()).thenReturn(List.of(book));
+    void whenSaveBookThenReturnsNewBook() {
+        when(bookRepository.save(any())).thenReturn(book);
 
-        List<Book> response = service.findAll();
+        BookResponseDto response = bookService.saveBook(bookDTO);
 
-        assertNotNull((response));
+        assertNotNull(response);
+        assertEquals(BookResponseDto.class, response.getClass());
+
+        assertEquals(book.getId(), response.id());
+        assertEquals(book.getBookTitle(), response.bookTitle());
+        assertEquals(book.getAuthor(), response.author());
+        assertEquals(book.getReleaseDate(), response.releaseDate());
+    }
+
+    @Test
+    void whenSaveMultipleBooksThenReturnsNewBook() {
+        when(bookRepository.saveAll(any())).thenReturn(List.of(book));
+
+        List<BookResponseDto> response = bookService.saveMultipleBooks(List.of(bookDTO));
+
+        assertNotNull(response);
         assertEquals(1, response.size());
-        assertEquals(Book.class, response.get(0).getClass());
+
+        BookResponseDto savedBookResponse = response.get(0);
+        assertEquals(book.getId(), savedBookResponse.id());
+        assertEquals(book.getBookTitle(), savedBookResponse.bookTitle());
+        assertEquals(book.getAuthor(), savedBookResponse.author());
+        assertEquals(book.getReleaseDate(), savedBookResponse.releaseDate());
     }
 
-    @Test
-    void whenFindByGenreThenReturnListOfBooks() {
-        String genre = "fantasy";
-
-        when(bookRepository.findByGenre(genre)).thenReturn(List.of(book));
-
-        List<Book> result = service.findByGenre(genre);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(book, result.get(0));
-    }
-
-    @Test
-    void whenFindByAuthorThenReturnListOfBooks(){
-        String author = "JK Rowling";
-
-        when(bookRepository.findByAuthor(author)).thenReturn(List.of(book));
-        List<Book> response = service.findByAuthor(author);
-
-        assertNotNull((response));
-        assertEquals(1, response.size());
-        assertEquals(Book.class, response.get(0).getClass());
-    }
-
-
-    private void starBook(){
-        book = new Book(1L, "Harry Potter", "JK Rowling", "2000", 300, 9.5, "fantasy");
+    private void starBook() {
+        book = new Book(ID, bookTitle, author, releaseDate, pages, rating, genre);
+        bookDTO = new BookResquestDto(bookTitle, author, releaseDate, pages, rating, genre);
     }
 }

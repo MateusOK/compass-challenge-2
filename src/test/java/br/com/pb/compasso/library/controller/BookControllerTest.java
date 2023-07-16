@@ -23,22 +23,22 @@ class BookControllerTest {
 
     @Test
     public void bookTestFindAll() throws Exception{
-        mockMvc.perform(get("/api/books"))
-                .andExpect(status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books"))
+                .andExpect(status().isOk()).andReturn();
 
     }
 
     @Test
      public void testFindById() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/api/books","{bookId}"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
     }
 
     @Test
     public void testFindByGenre() throws Exception{
         String genre="Fantasy";
         mockMvc.perform(get("/api/books/genre?genre=","{genre}"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn();
 
 
     }
@@ -47,7 +47,7 @@ class BookControllerTest {
     public void testFindByAuthor() throws Exception{
 
         mockMvc.perform(get("/api/books/author?author=","{author}"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn();
 
     }
 }

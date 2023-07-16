@@ -84,6 +84,24 @@ class BookServiceImplTest {
         assertEquals(book.getReleaseDate(), savedBookResponse.releaseDate());
     }
 
+    @Test
+    void whenDeleteExistingBookThenNoExceptionThrown() {
+        when(bookRepository.findById(ID)).thenReturn(Optional.of(book));
+
+        assertDoesNotThrow(() -> bookService.delete(ID));
+
+        verify(bookRepository).findById(ID);
+        verify(bookRepository).delete(book);
+    }
+
+    @Test
+    void whenDeleteNonExistingBookThenInternalServerExceptionThrown() {
+        when(bookRepository.findById(ID)).thenReturn(Optional.empty());
+
+        assertThrows(InternalServerException.class, () -> bookService.delete(ID));
+        verify(bookRepository).findById(ID);
+    }
+
     private void starBook() {
         book = new Book(ID, bookTitle, author, releaseDate, pages, rating, genre);
         bookDTO = new BookResquestDto(bookTitle, author, releaseDate, pages, rating, genre);

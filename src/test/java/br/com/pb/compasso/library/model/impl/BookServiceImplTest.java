@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.client.ExpectedCount;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,72 @@ class BookServiceImplTest {
         starBook();
     }
 
+    @Test
+    void whenFindByIdThenReturnAnExistingBook() {
+        when(bookRepository.findById(ID)).thenReturn(Optional.of(book));
+
+
+        BookResponseDto responseDto = bookService.findById(ID);
+
+        assertNotNull(responseDto);
+        assertEquals(BookResponseDto.class, responseDto.getClass());
+        assertEquals(ID, responseDto.id());
+        assertEquals("Harry Potter", responseDto.bookTitle());
+        assertEquals("JK Rowling", responseDto.author());
+        assertEquals("2000", responseDto.releaseDate());
+        assertEquals(300, responseDto.pages());
+        assertEquals(9.5, responseDto.rating());
+        assertEquals("fantasy", responseDto.genre());
+    }
+
+    @Test
+    void whenFindByAuthorThenReturnListOfBooksByAuthor(){
+        String author = "JK Rowling";
+        List<Book> books = Arrays.asList(
+                new Book(1L, "Harry Potter", author, "2000", 300, 9.5, "fantasy"),
+                new Book(2L, "Fantastic Beasts", author, "2016", 400, 8.8, "fantasy")
+        );
+        when(bookRepository.findByAuthor(author)).thenReturn(books);
+
+        List<BookResponseDto> response = bookService.findByAuthor(author);
+
+        assertNotNull(response);
+        assertFalse(response.isEmpty());
+        assertEquals(2, response.size());
+    }
+
+    @Test
+    void whenFindByGenreThenReturnListOfBooksByGenre(){
+        String author = "fantasy";
+        List<Book> books = Arrays.asList(
+                new Book(1L, "Harry Potter", author, "2000", 300, 9.5, "fantasy"),
+                new Book(2L, "Fantastic Beasts", author, "2016", 400, 8.8, "fantasy")
+        );
+
+        when(bookRepository.findByGenre(genre)).thenReturn(books);
+
+        List<BookResponseDto> response = bookService.findByGenre(genre);
+
+        assertNotNull(response);
+        assertFalse(response.isEmpty());
+        assertEquals(2, response.size());
+    }
+
+    @Test
+    void whenGetAllBooksThenReturnListOfAllBooks() {
+        List<Book> books = Arrays.asList(
+                new Book(1L, "Harry Potter", author, "2000", 300, 9.5, "fantasy"),
+                new Book(2L, "Fantastic Beasts", author, "2016", 400, 8.8, "fantasy")
+        );
+        when(bookRepository.findAll()).thenReturn(books);
+
+
+        List<BookResponseDto> response = bookService.getAllBooks();
+
+        assertNotNull(response);
+        assertFalse(response.isEmpty());
+        assertEquals(2, response.size());
+    }
 
     @Test
     void whenSaveBookThenReturnsNewBook() {

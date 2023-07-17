@@ -1,94 +1,353 @@
 package br.com.pb.compasso.library.controller;
 
-import br.com.pb.compasso.library.dto.request.BookResquestDto;
-import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.repository.BookRepository;
-import br.com.pb.compasso.library.service.impl.BookServiceImpl;
-import org.junit.jupiter.api.AfterEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.ModelAndViewAssert;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.test.web.servlet.ResultActions;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestPropertySource("/application.yml")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class BookControllerTest {
+public class BookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private JdbcTemplate jdbc;
-
-    @Mock
-    private BookServiceImpl bookServiceImplMock;
-
-    private Book book;
-
     private BookRepository bookRepository;
 
-    private BookResponseDto bookResponseDto;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @BeforeEach
-    public void beforeEach(){
-        jdbc.execute("INSERT INTO book (book_title, author, release_date, pages, rating, genre) VALUES\n" +
-                "('the great gatsby', 'f. scott fitzgerald', '1925-04-10', 218, 4.5, 'fiction')");
+//    @BeforeEach
+//    void setup(){
+//        bookRepository.deleteAll();
+//    }
+
+    @Test
+    public void givenBookObject_whenCreateBook_thenReturnSavedBook() throws Exception{
+
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        ResultActions response = mockMvc.perform(post("/api/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(book)));
+
+        response.andDo(print()).
+                andExpect(status().isCreated())
+                .andExpect(jsonPath("$.bookTitle",
+                        is(book.getBookTitle())))
+                .andExpect(jsonPath("$.author",
+                        is(book.getAuthor())))
+                .andExpect(jsonPath("$.releaseDate",
+                        is(book.getReleaseDate())))
+                .andExpect(jsonPath("$.pages",
+                        is(book.getPages())))
+                .andExpect(jsonPath("$.rating",
+                        is(book.getRating())))
+                .andExpect(jsonPath("$.genre",
+                        is(book.getGenre())));
+
     }
 
     @Test
-    void findAll() throws Exception {
+    public void givenListOfBooks_whenGetAllBooks_thenReturnBooksList() throws Exception{
 
-        var response = bookServiceImplMock.getAllBooks();
+        List<Book> listOfBooks = new ArrayList<>();
+        listOfBooks.add(Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build());
 
-//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/books"))
-//                .andExpect(status().isOk()).andReturn();
+        listOfBooks.add(Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build());
 
-        System.out.println(response);
+        bookRepository.saveAll(listOfBooks);
+
+        ResultActions response = mockMvc.perform(get("/api/books"));
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",
+                        is(listOfBooks.size())));
 
     }
 
     @Test
-    void findById() {
+    public void givenBookId_whenGetBookById_thenReturnBookObject() throws Exception{
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/{id}", book.getId()));
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.bookTitle",
+                        is(book.getBookTitle())))
+                .andExpect(jsonPath("$.author",
+                        is(book.getAuthor())))
+                .andExpect(jsonPath("$.releaseDate",
+                        is(book.getReleaseDate())))
+                .andExpect(jsonPath("$.pages",
+                        is(book.getPages())))
+                .andExpect(jsonPath("$.rating",
+                        is(book.getRating())))
+                .andExpect(jsonPath("$.genre",
+                        is(book.getGenre())));
+
     }
 
     @Test
-    void saveBook() {
+    public void givenBookGenre_whenGetBookByGenre_thenReturnBookObject() throws Exception{
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/genre")
+                .param("genre", book.getGenre()));
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", notNullValue()));
 
     }
 
     @Test
-    void findByGenre() {
+    public void givenBookAuthor_whenGetBookByAuthor_thenReturnBookObject() throws Exception{
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/author")
+                .param("author", book.getAuthor()));
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", notNullValue()));
+
     }
 
     @Test
-    void findByAuthor() {
+    public void givenInvalidBookId_whenGetBookById_thenReturnEmpty() throws Exception{
+        // given - precondition or setup
+        long bookID = 1L;
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/{id}", bookID));
+
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+
     }
 
     @Test
-    void saveMultipleBooks() {
+    public void givenBookGenre_whenGetBookByGenre_thenReturnIsNotFound() throws Exception{
+
+        String genre = "genre";
+
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/genre")
+                .param("genre", genre));
+
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+
     }
 
     @Test
-    void updateBook() {
+    public void givenBookAuthor_whenGetBookByAuthor_thenIsNotFound() throws Exception{
+
+        String author = "test";
+
+        Book book = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(book);
+
+        ResultActions response = mockMvc.perform(get("/api/books/author")
+                .param("author", author));
+
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+
     }
 
     @Test
-    void deleteBook() {
+    public void givenUpdatedBook_whenUpdateBook_thenReturnUpdatedBookObject() throws Exception{
+        Book savedBook = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(savedBook);
+
+        Book updatedBook = Book.builder()
+                .bookTitle("Harry Potter and the secret chamber")
+                .author("j k rowling")
+                .releaseDate("2005-02-02")
+                .pages(600)
+                .rating(9.7)
+                .genre("fantasy")
+                .build();
+
+        ResultActions response = mockMvc.perform(put("/api/books/{id}", savedBook.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedBook)));
+
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.bookTitle",
+                        is(updatedBook.getBookTitle())))
+                .andExpect(jsonPath("$.author",
+                        is(updatedBook.getAuthor())))
+                .andExpect(jsonPath("$.releaseDate",
+                        is(updatedBook.getReleaseDate())))
+                .andExpect(jsonPath("$.pages",
+                        is(updatedBook.getPages())))
+                .andExpect(jsonPath("$.rating",
+                        is(updatedBook.getRating())))
+                .andExpect(jsonPath("$.genre",
+                        is(updatedBook.getGenre())));
+    }
+
+
+    @Test
+    public void givenUpdatedBook_whenUpdateBook_thenReturn404() throws Exception{
+
+        long bookID = 1L;
+        Book savedBook = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(savedBook);
+
+        Book updatedBook = Book.builder()
+                .bookTitle("Harry Potter and the secret chamber")
+                .author("j k rowling")
+                .releaseDate("2005-02-02")
+                .pages(600)
+                .rating(9.7)
+                .genre("fantasy")
+                .build();
+
+        ResultActions response = mockMvc.perform(put("/api/employees/{id}", bookID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedBook)));
+
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    public void givenBookId_whenDeleteBook_thenReturn204() throws Exception{
+
+        Book savedBook = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(savedBook);
+
+        System.out.println(savedBook.getId());
+
+        ResultActions response = mockMvc.perform(delete("/api/employees/{id}", savedBook.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
     }
 }

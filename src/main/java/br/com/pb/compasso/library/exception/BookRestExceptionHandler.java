@@ -30,7 +30,7 @@ public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         error.setTimeStamp(new Date());
         error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.addError("Books parameters can't be null");
+        error.addError(ex.getFieldError().getDefaultMessage());
         error.setPath(request.getContextPath());
         LOGGER.error(ex.getMessage(), ex);
 

@@ -3,7 +3,6 @@ package br.com.pb.compasso.library.controller;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.repository.BookRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,24 +23,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class BookControllerTest {
+ class BookControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private  MockMvc mockMvc;
 
     @Autowired
-    private BookRepository bookRepository;
+    private  BookRepository bookRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @BeforeEach
-//    void setup(){
-//        bookRepository.deleteAll();
-//    }
-
     @Test
-    public void givenBookObject_whenCreateBook_thenReturnSavedBook() throws Exception{
+    void givenBookObject_whenCreateBook_thenReturnSavedBook() throws Exception{
 
         Book book = Book.builder()
                 .bookTitle("Harry Potter")
@@ -74,7 +68,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenListOfBooks_whenGetAllBooks_thenReturnBooksList() throws Exception{
+    void givenListOfBooks_whenGetAllBooks_thenReturnBooksList() throws Exception{
 
         List<Book> listOfBooks = new ArrayList<>();
         listOfBooks.add(Book.builder()
@@ -106,7 +100,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookId_whenGetBookById_thenReturnBookObject() throws Exception{
+    void givenBookId_whenGetBookById_thenReturnBookObject() throws Exception{
         Book book = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -138,7 +132,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookGenre_whenGetBookByGenre_thenReturnBookObject() throws Exception{
+    void givenBookGenre_whenGetBookByGenre_thenReturnBookObject() throws Exception{
         Book book = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -160,7 +154,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookAuthor_whenGetBookByAuthor_thenReturnBookObject() throws Exception{
+    void givenBookAuthor_whenGetBookByAuthor_thenReturnBookObject() throws Exception{
         Book book = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -182,7 +176,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenInvalidBookId_whenGetBookById_thenReturnIsNotFound() throws Exception{
+    void givenInvalidBookId_whenGetBookById_thenReturnIsNotFound() throws Exception{
         // given - precondition or setup
         long bookID = 60L;
         Book book = Book.builder()
@@ -204,7 +198,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookGenre_whenGetBookByGenre_thenReturnIsNotFound() throws Exception{
+    void givenBookGenre_whenGetBookByGenre_thenReturnIsNotFound() throws Exception{
 
         String genre = "genre";
 
@@ -228,7 +222,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookAuthor_whenGetBookByAuthor_thenIsNotFound() throws Exception{
+    void givenBookAuthor_whenGetBookByAuthor_thenIsNotFound() throws Exception{
 
         String author = "test";
 
@@ -252,7 +246,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenUpdatedBook_whenUpdateBook_thenReturnUpdatedBookObject() throws Exception{
+    void givenUpdatedBook_whenUpdateBook_thenReturnUpdatedBookObject() throws Exception{
         Book savedBook = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -296,7 +290,7 @@ public class BookControllerTest {
 
 
     @Test
-    public void givenUpdatedBook_whenUpdateBook_thenReturnBadRequest() throws Exception{
+    void givenUpdatedBook_whenUpdateBook_thenReturnBadRequest() throws Exception{
 
         long bookID = 66L;
         Book savedBook = Book.builder()
@@ -328,7 +322,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookId_whenDeleteBook_thenReturn204() throws Exception{
+    void givenBookId_whenDeleteBook_thenReturn204() throws Exception{
 
         Book savedBook = Book.builder()
                 .bookTitle("Harry Potter")
@@ -348,7 +342,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookId_whenDeleteBook_thenReturnIsBadRequest() throws Exception{
+    void givenBookId_whenDeleteBook_thenReturnIsBadRequest() throws Exception{
 
         Long testID = 66L;
 

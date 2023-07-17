@@ -348,7 +348,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenBookId_whenDeleteBook_thenReturnIsPageNotFound() throws Exception{
+    public void givenBookId_whenDeleteBook_thenReturnIsBadRequest() throws Exception{
 
         Long testID = 66L;
 

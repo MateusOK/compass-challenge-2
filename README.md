@@ -1,4 +1,4 @@
-# Library | Compass 2nd Challange
+# Library | Compass 2nd Challenge
 
 ## About
 
@@ -54,6 +54,32 @@ Now you're all set to test the API! To get started, simply run the application a
 
 ## Endpoints
 
+### Postman Collection<br>
+To simplify the testing process, we have provided a Postman collection that contains all the API endpoints. You can download the collection from the following link: [Download Postman Collection](https://github.com/MateusOK/compass-challenge-2/releases/tag/Library)
+
+#### How to Use
+
+1. Once you have the Postman collection downloaded, open Postman.
+2. Click on the "Import" button in the top-left corner of the Postman application.
+3. In the import dialog, select the "File" tab and click on "Upload Files".
+4. Choose the downloaded Postman collection file.
+5. The collection will be imported into Postman, and you will see all the available endpoints listed.
+
+#### Testing the Endpoints
+
+1. With the imported collection open, you can navigate through the available folders and endpoints to view their details.
+2. Each endpoint in the collection includes information such as the HTTP method, request URL, request parameters, headers, and example request/response bodies.
+3. To test an endpoint, select it from the collection and click on the "Send" button.
+4. Observe the response received in the "Response" section to verify the API's behavior.
+   
+Please note that you may need to adjust the request parameters and headers based on your specific testing requirements.
+
+That's it! You're all set to start testing the API endpoints using the provided Postman collection. If you encounter any issues or have questions, feel free to reach out for assistance.
+
+Happy testing!
+
+---
+
 ### • GET
 
 #### GET all books: 
@@ -103,7 +129,7 @@ Make sure to replace *{genre}* with your desired genre.
 ```
   http://localhost:8080/api/books/author?author={author}
 ```
-Make sure to replace *{author}* with your desired genre.
+Make sure to replace *{author}* with your desired author.
 
   Example:
 

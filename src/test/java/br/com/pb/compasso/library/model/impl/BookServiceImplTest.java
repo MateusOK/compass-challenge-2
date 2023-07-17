@@ -1,6 +1,6 @@
 package br.com.pb.compasso.library.model.impl;
 
-import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.request.BookRequestDto;
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.exception.InternalServerException;
@@ -37,7 +37,7 @@ class BookServiceImplTest {
     @Mock
     private BookRepository bookRepository;
 
-    private BookResquestDto bookDTO;
+    private BookRequestDto bookDTO;
     private Book book;
 
     @BeforeEach
@@ -165,7 +165,7 @@ class BookServiceImplTest {
     @Test
     void whenUpdateBookThenReturnUpdatedBook() {
         Long id = 1L;
-        BookResquestDto requestDto = new BookResquestDto("The Lord of the Rings", "J.R.R. Tolkien", "1954", 1200, 9.0, "Epic Fantasy");
+        BookRequestDto requestDto = new BookRequestDto("The Lord of the Rings", "J.R.R. Tolkien", "1954", 1200, 9.0, "Epic Fantasy");
 
         Book updatedBook = new Book(id, requestDto.bookTitle(), requestDto.author(), requestDto.releaseDate(),
                 requestDto.pages(), requestDto.rating(), requestDto.genre());
@@ -190,6 +190,6 @@ class BookServiceImplTest {
 
     private void starBook() {
         book = new Book(ID, bookTitle, author, releaseDate, pages, rating, genre);
-        bookDTO = new BookResquestDto(bookTitle, author, releaseDate, pages, rating, genre);
+        bookDTO = new BookRequestDto(bookTitle, author, releaseDate, pages, rating, genre);
     }
 }

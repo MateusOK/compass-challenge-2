@@ -1,6 +1,6 @@
 package br.com.pb.compasso.library.entity;
 
-import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.request.BookRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,7 +36,7 @@ public class Book {
     @Column(name = "genre")
     private String genre;
 
-    public Book(BookResquestDto request){
+    public Book(BookRequestDto request){
         this.bookTitle = request.bookTitle();
         this.author = request.author();
         this.releaseDate = request.releaseDate();

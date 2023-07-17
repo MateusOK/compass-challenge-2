@@ -1,6 +1,6 @@
 package br.com.pb.compasso.library.service.impl;
 
-import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.request.BookRequestDto;
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
 import br.com.pb.compasso.library.exception.InternalServerException;
@@ -27,14 +27,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Validated
-    public BookResponseDto saveBook(BookResquestDto request) {
+    public BookResponseDto saveBook(BookRequestDto request) {
         var response = bookRepository.save(new Book(request));
         return new BookResponseDto(response);
     }
 
     @Override
     @Validated
-    public List<BookResponseDto> saveMultipleBooks(@Valid @NotNull List<BookResquestDto> request) {
+    public List<BookResponseDto> saveMultipleBooks(@Valid @NotNull List<BookRequestDto> request) {
         List<Book> books = request.stream()
                 .map(Book::new)
                 .toList();
@@ -93,7 +93,7 @@ public class BookServiceImpl implements BookService {
         return books;
     }
     @Override
-    public BookResponseDto update(Long id, BookResquestDto request) {
+    public BookResponseDto update(Long id, BookRequestDto request) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new InternalServerException("Book ID not found - "+ id));
 

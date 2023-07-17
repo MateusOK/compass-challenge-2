@@ -1,7 +1,7 @@
 package br.com.pb.compasso.library.controller;
 
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
-import br.com.pb.compasso.library.dto.request.BookResquestDto;
+import br.com.pb.compasso.library.dto.request.BookRequestDto;
 import br.com.pb.compasso.library.service.BookService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,7 +44,7 @@ public class BookController {
     }
 
     @PostMapping("/api/books")
-    public ResponseEntity<BookResponseDto> saveBook(@RequestBody @Valid BookResquestDto request, UriComponentsBuilder builder){
+    public ResponseEntity<BookResponseDto> saveBook(@RequestBody @Valid BookRequestDto request, UriComponentsBuilder builder){
         var response = bookService.saveBook(request);
         var uri = builder.path("/api/books/{id}").buildAndExpand(response.id()).toUri();
         return ResponseEntity.created(uri).body(response);
@@ -63,13 +63,13 @@ public class BookController {
     }
 
     @PostMapping("/api/books/batch")
-    public ResponseEntity<List<BookResponseDto>> saveMultipleBooks(@RequestBody @Valid List<BookResquestDto> request) {
+    public ResponseEntity<List<BookResponseDto>> saveMultipleBooks(@RequestBody @Valid List<BookRequestDto> request) {
         List<BookResponseDto> response = bookService.saveMultipleBooks(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("api/books/{bookId}")
-    public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookResquestDto request) {
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable @Valid @NotNull Long bookId, @RequestBody @Valid @NotNull BookRequestDto request) {
         BookResponseDto updateBook = bookService.update(bookId, request);
         return ResponseEntity.ok(updateBook);
     }

@@ -3,7 +3,7 @@ package br.com.pb.compasso.library.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record BookResquestDto(
+public record BookRequestDto(
 
         @NotBlank(message = "{bookTitle.not.blank}")
         String bookTitle,

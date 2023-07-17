@@ -3,7 +3,6 @@ package br.com.pb.compasso.library.service.impl;
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
-import br.com.pb.compasso.library.exception.BadRequestException;
 import br.com.pb.compasso.library.exception.InternalServerException;
 import br.com.pb.compasso.library.exception.PageNotFoundException;
 import br.com.pb.compasso.library.repository.BookRepository;

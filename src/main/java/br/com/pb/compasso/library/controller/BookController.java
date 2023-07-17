@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
+@Validated
 public class BookController {
 
     private final BookService bookService;

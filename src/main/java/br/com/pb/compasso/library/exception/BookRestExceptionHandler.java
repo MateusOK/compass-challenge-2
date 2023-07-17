@@ -37,6 +37,19 @@ public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, status);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        ExceptionResponseBody error = new ExceptionResponseBody();
+
+        error.setTimeStamp(new Date());
+        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.addError(ex.getMessage());
+        error.setPath(request.getContextPath());
+        LOGGER.error(ex.getMessage(), ex);
+
+        return new ResponseEntity<>(error, statusCode);
+    }
+
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

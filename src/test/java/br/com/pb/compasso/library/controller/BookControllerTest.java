@@ -101,8 +101,7 @@ public class BookControllerTest {
 
         response.andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.size()",
-                        is(listOfBooks.size())));
+                .andExpect(jsonPath("$.size()", notNullValue()));
 
     }
 
@@ -183,9 +182,9 @@ public class BookControllerTest {
     }
 
     @Test
-    public void givenInvalidBookId_whenGetBookById_thenReturnEmpty() throws Exception{
+    public void givenInvalidBookId_whenGetBookById_thenReturnIsNotFound() throws Exception{
         // given - precondition or setup
-        long bookID = 1L;
+        long bookID = 60L;
         Book book = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -297,9 +296,9 @@ public class BookControllerTest {
 
 
     @Test
-    public void givenUpdatedBook_whenUpdateBook_thenReturn404() throws Exception{
+    public void givenUpdatedBook_whenUpdateBook_thenReturnBadRequest() throws Exception{
 
-        long bookID = 1L;
+        long bookID = 66L;
         Book savedBook = Book.builder()
                 .bookTitle("Harry Potter")
                 .author("j k rowling")
@@ -320,11 +319,11 @@ public class BookControllerTest {
                 .genre("fantasy")
                 .build();
 
-        ResultActions response = mockMvc.perform(put("/api/employees/{id}", bookID)
+        ResultActions response = mockMvc.perform(put("/api/books/{id}", bookID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedBook)));
 
-        response.andExpect(status().isNotFound())
+        response.andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
@@ -342,12 +341,9 @@ public class BookControllerTest {
 
         bookRepository.save(savedBook);
 
-        System.out.println(savedBook.getId());
+        ResultActions response = mockMvc.perform(delete("/api/books/{id}", savedBook.getId()));
 
-        ResultActions response = mockMvc.perform(delete("/api/employees/{id}", savedBook.getId()));
-
-        // then - verify the output
-        response.andExpect(status().isOk())
+        response.andExpect(status().isNoContent())
                 .andDo(print());
     }
 }

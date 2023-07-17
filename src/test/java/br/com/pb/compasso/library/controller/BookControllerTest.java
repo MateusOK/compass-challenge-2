@@ -346,4 +346,27 @@ public class BookControllerTest {
         response.andExpect(status().isNoContent())
                 .andDo(print());
     }
+
+    @Test
+    public void givenBookId_whenDeleteBook_thenReturnIsPageNotFound() throws Exception{
+
+        Long testID = 66L;
+
+        Book savedBook = Book.builder()
+                .bookTitle("Harry Potter")
+                .author("j k rowling")
+                .releaseDate("2000-02-02")
+                .pages(780)
+                .rating(9.2)
+                .genre("fantasy")
+                .build();
+
+        bookRepository.save(savedBook);
+
+        ResultActions response = mockMvc.perform(delete("/api/books/{id}", testID));
+
+        response.andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
 }

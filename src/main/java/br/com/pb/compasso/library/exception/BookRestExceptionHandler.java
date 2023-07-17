@@ -30,11 +30,24 @@ public class BookRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         error.setTimeStamp(new Date());
         error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.addError("Books parameters can't be null");
+        error.addError(ex.getFieldError().getDefaultMessage());
         error.setPath(request.getContextPath());
         LOGGER.error(ex.getMessage(), ex);
 
         return new ResponseEntity<>(error, status);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        ExceptionResponseBody error = new ExceptionResponseBody();
+
+        error.setTimeStamp(new Date());
+        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.addError(ex.getMessage());
+        error.setPath(request.getContextPath());
+        LOGGER.error(ex.getMessage(), ex);
+
+        return new ResponseEntity<>(error, statusCode);
     }
 
     @ExceptionHandler(BadRequestException.class)

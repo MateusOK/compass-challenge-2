@@ -3,7 +3,6 @@ package br.com.pb.compasso.library.service.impl;
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import br.com.pb.compasso.library.dto.response.BookResponseDto;
 import br.com.pb.compasso.library.entity.Book;
-import br.com.pb.compasso.library.exception.BadRequestException;
 import br.com.pb.compasso.library.exception.InternalServerException;
 import br.com.pb.compasso.library.exception.PageNotFoundException;
 import br.com.pb.compasso.library.repository.BookRepository;
@@ -57,7 +56,7 @@ public class BookServiceImpl implements BookService {
                     book.getReleaseDate(), book.getPages(), book.getRating(), book.getGenre());
         }
         else {
-            throw new InternalServerException("Book ID not found - " + id);
+            throw new PageNotFoundException("Book ID not found - " + id);
         }
     }
 
@@ -78,7 +77,7 @@ public class BookServiceImpl implements BookService {
         var books = new ArrayList<BookResponseDto>();
         response.forEach(book -> books.add(new BookResponseDto(book)));
         if(books.isEmpty()){
-            throw new BadRequestException("There is no books with this genre - " + genre);
+            throw new PageNotFoundException("There is no books with this genre - " + genre);
         }
         return books;
     }
@@ -89,7 +88,7 @@ public class BookServiceImpl implements BookService {
         var books = new ArrayList<BookResponseDto>();
         response.forEach(book -> books.add(new BookResponseDto(book)));
         if(books.isEmpty()){
-            throw new BadRequestException("There is no books with this author - " + author);
+            throw new PageNotFoundException("There is no books with this author - " + author);
         }
         return books;
     }

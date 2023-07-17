@@ -2,10 +2,7 @@ package br.com.pb.compasso.library.entity;
 
 import br.com.pb.compasso.library.dto.request.BookResquestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "book")
@@ -13,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
 
     @Id

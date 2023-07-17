@@ -1,4 +1,4 @@
-# Library | Compass 2nd Challange
+# Library | Compass 2nd Challenge
 
 ## About
 
@@ -103,7 +103,7 @@ Make sure to replace *{genre}* with your desired genre.
 ```
   http://localhost:8080/api/books/author?author={author}
 ```
-Make sure to replace *{author}* with your desired genre.
+Make sure to replace *{author}* with your desired author.
 
   Example:
 
